@@ -9,7 +9,7 @@ export function Layout() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#F8FAFC]">
       <Header onMenuClick={() => setIsMobileSidebarOpen(true)} />
       
       <div className="flex">

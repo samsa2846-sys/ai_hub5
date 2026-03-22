@@ -23,7 +23,7 @@ export function Sidebar() {
   const location = useLocation();
 
   return (
-    <aside className="hidden lg:flex flex-col w-60 bg-white border-r border-[#F3F4F6] h-[calc(100vh-80px)] sticky top-20">
+    <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-[#E2E8F0] h-[calc(100vh-80px)] sticky top-20">
       <nav className="flex-1 p-4 space-y-1">
         {menuItems.map((item) => {
           const Icon = item.icon;
@@ -34,14 +34,14 @@ export function Sidebar() {
               key={item.path}
               to={item.path}
               className={`
-                flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
+                flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
                 ${isActive 
-                  ? 'bg-[#2563EB]/10 text-[#2563EB]' 
-                  : 'text-[#6B7280] hover:bg-[#F3F4F6]'
+                  ? 'bg-gradient-to-r from-[#0B1C3A] to-[#1E3A5F] text-white shadow-lg' 
+                  : 'text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0B1C3A]'
                 }
               `}
             >
-              <Icon className="w-5 h-5" />
+              <Icon className={`w-5 h-5 ${isActive ? 'text-[#D4AF37]' : ''}`} />
               <span className="text-sm font-medium">{item.label}</span>
             </Link>
           );
@@ -49,18 +49,19 @@ export function Sidebar() {
       </nav>
 
       {/* Level progress */}
-      <div className="p-4 border-t border-[#F3F4F6]">
-        <div className="mb-3">
+      <div className="p-4 border-t border-[#E2E8F0]">
+        <div className="mb-4 p-4 rounded-xl bg-gradient-to-br from-[#F1F5F9] to-[#E2E8F0]">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-[#6B7280]">Уровень {userProfile.level}</span>
-            <span className="text-xs text-[#9CA3AF]">{userProfile.levelProgress}%</span>
+            <span className="text-sm font-medium text-[#0B1C3A]">Уровень {userProfile.level}</span>
+            <span className="text-xs font-semibold text-[#D4AF37]">{userProfile.levelProgress}%</span>
           </div>
-          <Progress.Root className="h-1 bg-[#E5E7EB] rounded-full overflow-hidden">
+          <Progress.Root className="h-2 bg-white rounded-full overflow-hidden shadow-inner">
             <Progress.Indicator
-              className="h-full bg-[#10B981] transition-transform"
+              className="h-full bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] transition-transform rounded-full"
               style={{ transform: `translateX(-${100 - userProfile.levelProgress}%)` }}
             />
           </Progress.Root>
+          <p className="text-xs text-[#64748B] mt-2">До следующего уровня: {100 - userProfile.levelProgress}%</p>
         </div>
 
         {bottomItems.map((item) => {
@@ -72,14 +73,14 @@ export function Sidebar() {
               key={item.path}
               to={item.path}
               className={`
-                flex items-center gap-3 px-4 py-3 rounded-lg transition-colors mb-1
+                flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 mb-1
                 ${isActive 
-                  ? 'bg-[#2563EB]/10 text-[#2563EB]' 
-                  : 'text-[#6B7280] hover:bg-[#F3F4F6]'
+                  ? 'bg-gradient-to-r from-[#0B1C3A] to-[#1E3A5F] text-white shadow-lg' 
+                  : 'text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0B1C3A]'
                 }
               `}
             >
-              <Icon className="w-5 h-5" />
+              <Icon className={`w-5 h-5 ${isActive ? 'text-[#D4AF37]' : ''}`} />
               <span className="text-sm font-medium">{item.label}</span>
             </Link>
           );

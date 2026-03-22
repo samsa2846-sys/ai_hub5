@@ -8,16 +8,16 @@ interface BadgeProps {
 
 export function Badge({ children, variant = 'level-S', className = '' }: BadgeProps) {
   const variants = {
-    'level-S': 'bg-[#9CA3AF] text-white',
-    'level-G': 'bg-[#FBBF24] text-white',
-    'level-P': 'bg-[#3B82F6] text-white',
-    'status-active': 'bg-[#D1FAE5] text-[#065F46]',
+    'level-S': 'bg-gradient-to-r from-[#64748B] to-[#94A3B8] text-white',
+    'level-G': 'bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] text-[#0B1C3A]',
+    'level-P': 'bg-gradient-to-r from-[#0B1C3A] to-[#1E3A5F] text-white',
+    'status-active': 'bg-[#DCFCE7] text-[#166534]',
     'status-pending': 'bg-[#FEF3C7] text-[#92400E]',
-    'status-closed': 'bg-[#F3F4F6] text-[#4B5563]',
+    'status-closed': 'bg-[#F1F5F9] text-[#475569]',
   };
   
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${variants[variant]} ${className}`}>
+    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${variants[variant]} ${className}`}>
       {children}
     </span>
   );
