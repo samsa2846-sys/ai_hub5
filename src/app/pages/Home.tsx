@@ -280,11 +280,12 @@ export function Home() {
                 key={factory.id}
                 data-factory-card
                 data-index={index}
-                className={`
-                  opacity-0 transition-all duration-500
-                  ${visibleCards.has(index) ? 'slide-up opacity-100' : ''}
-                `}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="opacity-0"
+                style={{
+                  opacity: visibleCards.has(index) ? 1 : 0,
+                  transform: visibleCards.has(index) ? 'translateY(0)' : 'translateY(30px)',
+                  transition: `all 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${(index % 5) * 0.1}s`,
+                }}
               >
                 <FactoryCard factory={factory} />
               </div>
