@@ -35,7 +35,7 @@ export function FactoryCard({ factory }: FactoryCardProps) {
 
   return (
     <Link to={`/factory/${factory.id}`} className="group block">
-      <div className="premium-card bg-white rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-sm">
+      <div className="premium-card bg-white rounded-2xl overflow-hidden border border-[#E2E8F0] shadow-sm group-hover:border-[#D4AF37]/50 group-hover:shadow-[0_20px_40px_rgba(212,175,55,0.15)]">
         {/* Image */}
         <div className="relative aspect-square overflow-hidden bg-[#F1F5F9]">
           <img

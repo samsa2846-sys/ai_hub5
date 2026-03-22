@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
-import { Factory, Users, ShieldCheck, MessageSquare, Search, Cpu, Shirt, Settings, Package, Sparkles } from 'lucide-react';
+import { Factory, Users, ShieldCheck, MessageSquare, Search, Cpu, Shirt, Settings, Package, Sparkles, Cog, Box } from 'lucide-react';
 import { mockFactories } from '../data/mockData';
 import { FactoryCard } from '../components/factory/FactoryCard';
 import { FactoryCardSkeleton } from '../components/ui/Skeleton';
@@ -64,7 +64,8 @@ const quickFilters = [
   { label: 'Электроника', icon: Cpu },
   { label: 'Текстиль', icon: Shirt },
   { label: 'Оборудование', icon: Settings },
-  { label: 'Упаковка', icon: Package },
+  { label: 'Пластик', icon: Box },
+  { label: 'Металлообработка', icon: Cog },
 ];
 
 export function Home() {
@@ -72,11 +73,26 @@ export function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
+  const [isSearchSticky, setIsSearchSticky] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
 
   // Animated counters
   const factoriesCounter = useAnimatedCounter(10000);
   const buyersCounter = useAnimatedCounter(50000);
   const successCounter = useAnimatedCounter(98);
+
+  // Track scroll for sticky search
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroRef.current) {
+        const heroBottom = heroRef.current.getBoundingClientRect().bottom;
+        setIsSearchSticky(heroBottom < 80);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Intersection observer for card animations
   useEffect(() => {
@@ -100,12 +116,56 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-pattern">
+      {/* Sticky Search Bar */}
+      <div 
+        className={`
+          fixed top-0 left-0 right-0 z-50 transition-all duration-300 
+          ${isSearchSticky ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'}
+        `}
+      >
+        <div className="glass-dark border-b border-white/10 shadow-2xl">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center gap-4 max-w-4xl mx-auto">
+              <div className="relative flex-1">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#64748B]" />
+                <input
+                  type="text"
+                  placeholder="Поиск по 10,000+ фабрик..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-12 pl-12 pr-4 bg-white rounded-xl text-base placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] text-[#0B1C3A]"
+                />
+              </div>
+              <button 
+                className="
+                  h-12 px-6
+                  bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] 
+                  hover:from-[#C4A030] hover:to-[#E4C030]
+                  text-[#0B1C3A] font-semibold rounded-xl
+                  transition-all duration-300 hover:shadow-lg
+                  whitespace-nowrap
+                "
+              >
+                Найти
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section with Search */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#0B1C3A] via-[#132847] to-[#0B1C3A] py-12 md:py-16 lg:py-20">
+      <div ref={heroRef} className="relative overflow-hidden bg-gradient-to-br from-[#0B1C3A] via-[#132847] to-[#0B1C3A] py-12 md:py-16 lg:py-20">
         {/* Background decorations */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-1/2 -right-1/4 w-[600px] h-[600px] rounded-full bg-[#D4AF37]/5 blur-3xl" />
           <div className="absolute -bottom-1/2 -left-1/4 w-[500px] h-[500px] rounded-full bg-[#D4AF37]/5 blur-3xl" />
+          {/* Subtle grid pattern */}
+          <div 
+            className="absolute inset-0 opacity-[0.02]"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-rule='evenodd'%3E%3Cpath d='M0 0h40v1H0zM0 0v40h1V0z'/%3E%3C/g%3E%3C/svg%3E")`,
+            }}
+          />
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -157,7 +217,7 @@ export function Home() {
                     bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] 
                     hover:from-[#C4A030] hover:to-[#E4C030]
                     text-[#0B1C3A] font-semibold text-lg rounded-xl
-                    transition-all duration-300 hover:shadow-lg
+                    transition-all duration-300 hover:shadow-lg hover:scale-[1.02]
                     pulse-gold
                   "
                 >
@@ -173,10 +233,10 @@ export function Home() {
                   key={filter.label}
                   className="
                     inline-flex items-center gap-2 px-4 py-2.5
-                    bg-white/10 hover:bg-white/20 
+                    bg-white/10 hover:bg-[#D4AF37]/20 
                     border border-white/20 hover:border-[#D4AF37]/50
-                    rounded-full text-white/90 text-sm font-medium
-                    transition-all duration-300
+                    rounded-full text-white/90 hover:text-white text-sm font-medium
+                    transition-all duration-300 hover:scale-105
                   "
                 >
                   <filter.icon className="w-4 h-4" />
@@ -193,7 +253,7 @@ export function Home() {
               className="
                 px-8 py-4 bg-white text-[#0B1C3A] rounded-xl font-semibold
                 hover:bg-[#D4AF37] transition-all duration-300
-                shadow-lg hover:shadow-xl
+                shadow-lg hover:shadow-xl hover:scale-105
               "
             >
               Создать RFQ
@@ -202,7 +262,7 @@ export function Home() {
               to="/catalog" 
               className="
                 px-8 py-4 border-2 border-white/30 text-white rounded-xl font-semibold
-                hover:bg-white/10 hover:border-white/50 transition-all duration-300
+                hover:bg-white/10 hover:border-white/50 transition-all duration-300 hover:scale-105
               "
             >
               Смотреть каталог
