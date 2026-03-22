@@ -7,13 +7,13 @@ export function NotFound() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center max-w-md mx-auto">
-        <h1 className="text-6xl font-semibold text-[#1F2937] mb-4">404</h1>
-        <h2 className="text-xl font-semibold text-[#1F2937] mb-2">Страница не найдена</h2>
-        <p className="text-[#6B7280] mb-6">
+        <h1 className="text-6xl font-semibold text-gradient-gold mb-4">404</h1>
+        <h2 className="text-xl font-semibold text-[#0B1C3A] mb-2">Страница не найдена</h2>
+        <p className="text-[#64748B] mb-6">
           К сожалению, запрашиваемая страница не существует
         </p>
         <Link to="/">
-          <Button className="gap-2">
+          <Button variant="gold" className="gap-2">
             <Home className="w-5 h-5" />
             Вернуться на главную
           </Button>

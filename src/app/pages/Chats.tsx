@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Send, Paperclip, FileText } from 'lucide-react';
 import { mockChats, mockMessages } from '../data/mockData';
-import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 
 export function Chats() {
@@ -19,11 +18,11 @@ export function Chats() {
 
   return (
     <div className="container mx-auto px-4 py-6 h-[calc(100vh-140px)] lg:h-[calc(100vh-100px)]">
-      <div className="bg-white rounded-lg overflow-hidden h-full flex">
+      <div className="bg-white rounded-2xl overflow-hidden h-full flex border border-[#E2E8F0]">
         {/* Chat list */}
-        <div className="w-full md:w-80 lg:w-96 border-r border-[#F3F4F6] flex flex-col">
-          <div className="p-4 border-b border-[#F3F4F6]">
-            <h2 className="font-semibold text-[#1F2937]">Чаты</h2>
+        <div className="w-full md:w-80 lg:w-96 border-r border-[#E2E8F0] flex flex-col">
+          <div className="p-4 border-b border-[#E2E8F0]">
+            <h2 className="font-semibold text-[#0B1C3A]">Чаты</h2>
           </div>
 
           <div className="flex-1 overflow-y-auto">
@@ -32,29 +31,29 @@ export function Chats() {
                 key={chat.id}
                 onClick={() => setSelectedChat(chat.id)}
                 className={`
-                  w-full p-4 flex items-start gap-3 hover:bg-[#F9FAFB] transition-colors text-left
-                  ${selectedChat === chat.id ? 'bg-[#F3F4F6]' : ''}
+                  w-full p-4 flex items-start gap-3 hover:bg-[#F8FAFC] transition-colors text-left
+                  ${selectedChat === chat.id ? 'bg-[#F1F5F9]' : ''}
                 `}
               >
                 <img
                   src={chat.factoryAvatar}
                   alt={chat.factoryName}
-                  className="w-12 h-12 rounded-full object-cover shrink-0"
+                  className="w-12 h-12 rounded-full object-cover shrink-0 border-2 border-[#E2E8F0]"
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between mb-1">
-                    <span className="font-medium text-[#1F2937] truncate">
+                    <span className="font-medium text-[#0B1C3A] truncate">
                       {chat.factoryName}
                     </span>
-                    <span className="text-xs text-[#9CA3AF] ml-2 shrink-0">
+                    <span className="text-xs text-[#94A3B8] ml-2 shrink-0">
                       {chat.lastMessageTime}
                     </span>
                   </div>
-                  <p className="text-sm text-[#6B7280] truncate">{chat.lastMessage}</p>
+                  <p className="text-sm text-[#64748B] truncate">{chat.lastMessage}</p>
                 </div>
                 {chat.unreadCount > 0 && (
-                  <div className="w-5 h-5 bg-[#2563EB] rounded-full flex items-center justify-center shrink-0">
-                    <span className="text-xs text-white">{chat.unreadCount}</span>
+                  <div className="w-5 h-5 bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] rounded-full flex items-center justify-center shrink-0">
+                    <span className="text-xs text-[#0B1C3A] font-semibold">{chat.unreadCount}</span>
                   </div>
                 )}
               </button>
@@ -67,20 +66,20 @@ export function Chats() {
           {currentChat ? (
             <>
               {/* Chat header */}
-              <div className="p-4 border-b border-[#F3F4F6] flex items-center gap-3">
+              <div className="p-4 border-b border-[#E2E8F0] flex items-center gap-3">
                 <img
                   src={currentChat.factoryAvatar}
                   alt={currentChat.factoryName}
-                  className="w-10 h-10 rounded-full object-cover"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-[#D4AF37]"
                 />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-[#1F2937]">{currentChat.factoryName}</h3>
+                  <h3 className="font-semibold text-[#0B1C3A]">{currentChat.factoryName}</h3>
                   <p className="text-sm text-[#10B981]">В сети</p>
                 </div>
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#F8FAFC]">
                 {mockMessages.map((message) => (
                   <div
                     key={message.id}
@@ -89,9 +88,9 @@ export function Chats() {
                     <div
                       className={`max-w-[70%] ${
                         message.sender === 'me'
-                          ? 'bg-[#2563EB] text-white rounded-l-2xl rounded-tr-2xl'
-                          : 'bg-[#F3F4F6] text-[#1F2937] rounded-r-2xl rounded-tl-2xl'
-                      } px-4 py-3`}
+                          ? 'bg-gradient-to-r from-[#0B1C3A] to-[#1E3A5F] text-white rounded-l-2xl rounded-tr-2xl'
+                          : 'bg-white text-[#0B1C3A] rounded-r-2xl rounded-tl-2xl border border-[#E2E8F0]'
+                      } px-4 py-3 shadow-sm`}
                     >
                       <p className="text-sm mb-1">{message.text}</p>
                       {message.textEn && message.sender === 'them' && (
@@ -104,15 +103,15 @@ export function Chats() {
 
                 {/* Deal card in chat */}
                 <div className="flex justify-center">
-                  <div className="max-w-sm w-full border border-[#E5E7EB] rounded-lg p-4 bg-[#F9FAFB]">
+                  <div className="max-w-sm w-full border border-[#E2E8F0] rounded-2xl p-4 bg-white shadow-sm">
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 bg-[#2563EB]/10 rounded-lg flex items-center justify-center">
-                        <FileText className="w-5 h-5 text-[#2563EB]" />
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#0B1C3A] to-[#1E3A5F] rounded-xl flex items-center justify-center">
+                        <FileText className="w-5 h-5 text-[#D4AF37]" />
                       </div>
                       <div className="flex-1">
-                        <h4 className="font-medium text-[#1F2937] mb-1">Сделка #001</h4>
-                        <p className="text-sm text-[#6B7280] mb-2">Сумма: $15,000</p>
-                        <span className="inline-block px-2 py-1 bg-[#FEF3C7] text-[#92400E] text-xs rounded-full">
+                        <h4 className="font-medium text-[#0B1C3A] mb-1">Сделка #001</h4>
+                        <p className="text-sm text-[#64748B] mb-2">Сумма: $15,000</p>
+                        <span className="inline-block px-2 py-1 bg-[#FEF3C7] text-[#92400E] text-xs rounded-full font-medium">
                           Ожидает подтверждения
                         </span>
                       </div>
@@ -122,11 +121,11 @@ export function Chats() {
               </div>
 
               {/* Message input */}
-              <form onSubmit={handleSendMessage} className="p-4 border-t border-[#F3F4F6]">
+              <form onSubmit={handleSendMessage} className="p-4 border-t border-[#E2E8F0] bg-white">
                 <div className="flex items-end gap-3">
                   <button
                     type="button"
-                    className="w-10 h-10 flex items-center justify-center text-[#6B7280] hover:bg-[#F3F4F6] rounded-lg transition-colors"
+                    className="w-10 h-10 flex items-center justify-center text-[#64748B] hover:bg-[#F1F5F9] rounded-xl transition-colors"
                   >
                     <Paperclip className="w-5 h-5" />
                   </button>
@@ -136,21 +135,21 @@ export function Chats() {
                       placeholder="Введите сообщение..."
                       value={messageText}
                       onChange={(e) => setMessageText(e.target.value)}
-                      className="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20"
+                      className="w-full px-4 py-3 border-2 border-[#E2E8F0] rounded-xl focus:outline-none focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]/20 transition-all"
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={!messageText.trim()}
-                    className="w-10 h-10 bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-50 disabled:cursor-not-allowed rounded-full flex items-center justify-center transition-colors"
+                    className="w-10 h-10 bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] hover:from-[#C4A030] hover:to-[#E4C030] disabled:opacity-50 disabled:cursor-not-allowed rounded-xl flex items-center justify-center transition-all shadow-lg"
                   >
-                    <Send className="w-5 h-5 text-white" />
+                    <Send className="w-5 h-5 text-[#0B1C3A]" />
                   </button>
                 </div>
               </form>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-[#6B7280]">
+            <div className="flex-1 flex items-center justify-center text-[#64748B]">
               Выберите чат
             </div>
           )}

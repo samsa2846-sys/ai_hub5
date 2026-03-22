@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router';
 import { Home, Search, FileText, MessageSquare, User, Package, Heart, Settings, HelpCircle } from 'lucide-react';
-import * as Progress from '@radix-ui/react-progress';
+import { Progress } from '../ui/Progress';
 import { userProfile } from '../../data/mockData';
 
 const menuItems = [
@@ -55,12 +55,7 @@ export function Sidebar() {
             <span className="text-sm font-medium text-[#0B1C3A]">Уровень {userProfile.level}</span>
             <span className="text-xs font-semibold text-[#D4AF37]">{userProfile.levelProgress}%</span>
           </div>
-          <Progress.Root className="h-2 bg-white rounded-full overflow-hidden shadow-inner">
-            <Progress.Indicator
-              className="h-full bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] transition-transform rounded-full"
-              style={{ transform: `translateX(-${100 - userProfile.levelProgress}%)` }}
-            />
-          </Progress.Root>
+          <Progress value={userProfile.levelProgress} className="shadow-inner" />
           <p className="text-xs text-[#64748B] mt-2">До следующего уровня: {100 - userProfile.levelProgress}%</p>
         </div>
 

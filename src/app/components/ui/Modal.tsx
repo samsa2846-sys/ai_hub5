@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { X } from 'lucide-react';
-import * as Dialog from '@radix-ui/react-dialog';
 
 interface ModalProps {
   isOpen: boolean;
@@ -17,43 +16,73 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
     lg: 'max-w-4xl',
   };
 
+  const handleEscapeKey = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  }, [onClose]);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      document.addEventListener('keydown', handleEscapeKey);
     } else {
       document.body.style.overflow = 'unset';
     }
     return () => {
       document.body.style.overflow = 'unset';
+      document.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [isOpen]);
+  }, [isOpen, handleEscapeKey]);
+
+  if (!isOpen) return null;
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={onClose}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50 z-50 animate-in fade-in" />
-        <Dialog.Content
+    <div className="fixed inset-0 z-50">
+      {/* Backdrop */}
+      <div 
+        className="fixed inset-0 bg-[#0B1C3A]/60 backdrop-blur-sm animate-in fade-in duration-200"
+        onClick={onClose}
+      />
+      
+      {/* Modal content */}
+      <div className="fixed inset-0 flex items-center justify-center p-4">
+        <div
           className={`
-            fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-            z-50 w-full ${sizes[size]} max-h-[90vh] overflow-y-auto
-            bg-white rounded-[20px] p-6
-            animate-in fade-in zoom-in-95
+            relative w-full ${sizes[size]} max-h-[90vh] overflow-y-auto
+            bg-white rounded-2xl shadow-2xl
+            animate-in zoom-in-95 fade-in duration-200
           `}
         >
+          {/* Header */}
           {title && (
-            <Dialog.Title className="text-xl mb-4 pr-8">
-              {title}
-            </Dialog.Title>
+            <div className="flex items-center justify-between p-6 border-b border-[#E2E8F0]">
+              <h2 className="text-xl font-semibold text-[#0B1C3A]">{title}</h2>
+              <button
+                onClick={onClose}
+                className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-[#F1F5F9] transition-colors"
+              >
+                <X className="w-5 h-5 text-[#64748B]" />
+              </button>
+            </div>
           )}
-          <Dialog.Close
-            className="absolute right-4 top-4 w-11 h-11 flex items-center justify-center rounded-lg hover:bg-[#F3F4F6] transition-colors"
-            onClick={onClose}
-          >
-            <X className="w-5 h-5 text-[#6B7280]" />
-          </Dialog.Close>
-          {children}
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+          
+          {/* Close button when no title */}
+          {!title && (
+            <button
+              onClick={onClose}
+              className="absolute right-4 top-4 w-10 h-10 flex items-center justify-center rounded-xl hover:bg-[#F1F5F9] transition-colors z-10"
+            >
+              <X className="w-5 h-5 text-[#64748B]" />
+            </button>
+          )}
+          
+          {/* Content */}
+          <div className="p-6">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

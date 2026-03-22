@@ -7,15 +7,20 @@ import { Select } from '../components/ui/Input';
 
 export function Catalog() {
   const [sortBy, setSortBy] = useState('rating');
+  const [activeLevel, setActiveLevel] = useState<string | null>(null);
+
+  const filteredFactories = activeLevel 
+    ? mockFactories.filter(f => f.level === activeLevel)
+    : mockFactories;
 
   return (
     <div className="container mx-auto px-4 py-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold text-[#1F2937] mb-4">Каталог фабрик</h1>
+        <h1 className="text-2xl font-semibold text-[#0B1C3A] mb-4">Каталог фабрик</h1>
         
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-3">
-          <Button variant="ghost" size="sm" className="gap-2">
+          <Button variant="outline" size="sm" className="gap-2">
             <Filter className="w-4 h-4" />
             Фильтры
           </Button>
@@ -32,13 +37,34 @@ export function Catalog() {
           />
 
           <div className="flex gap-2 ml-auto">
-            <button className="px-3 py-1.5 text-sm text-[#6B7280] hover:bg-[#F3F4F6] rounded-md">
+            <button 
+              onClick={() => setActiveLevel(activeLevel === 'S' ? null : 'S')}
+              className={`px-4 py-2 text-sm rounded-xl transition-all ${
+                activeLevel === 'S' 
+                  ? 'bg-gradient-to-r from-[#94A3B8] to-[#CBD5E1] text-[#0B1C3A] font-semibold shadow-lg' 
+                  : 'text-[#64748B] hover:bg-[#F1F5F9]'
+              }`}
+            >
               Уровень S
             </button>
-            <button className="px-3 py-1.5 text-sm text-[#6B7280] hover:bg-[#F3F4F6] rounded-md">
+            <button 
+              onClick={() => setActiveLevel(activeLevel === 'G' ? null : 'G')}
+              className={`px-4 py-2 text-sm rounded-xl transition-all ${
+                activeLevel === 'G' 
+                  ? 'bg-gradient-to-r from-[#D4AF37] to-[#F4D03F] text-[#0B1C3A] font-semibold shadow-lg' 
+                  : 'text-[#64748B] hover:bg-[#F1F5F9]'
+              }`}
+            >
               Уровень G
             </button>
-            <button className="px-3 py-1.5 text-sm text-[#6B7280] hover:bg-[#F3F4F6] rounded-md">
+            <button 
+              onClick={() => setActiveLevel(activeLevel === 'P' ? null : 'P')}
+              className={`px-4 py-2 text-sm rounded-xl transition-all ${
+                activeLevel === 'P' 
+                  ? 'bg-gradient-to-r from-[#0B1C3A] to-[#1E3A5F] text-white font-semibold shadow-lg' 
+                  : 'text-[#64748B] hover:bg-[#F1F5F9]'
+              }`}
+            >
               Уровень P
             </button>
           </div>
@@ -46,13 +72,13 @@ export function Catalog() {
       </div>
 
       {/* Results count */}
-      <p className="text-sm text-[#6B7280] mb-4">
-        Найдено фабрик: {mockFactories.length}
+      <p className="text-sm text-[#64748B] mb-4">
+        Найдено фабрик: {filteredFactories.length}
       </p>
 
       {/* Factory Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        {mockFactories.map((factory) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+        {filteredFactories.map((factory) => (
           <FactoryCard key={factory.id} factory={factory} />
         ))}
       </div>
