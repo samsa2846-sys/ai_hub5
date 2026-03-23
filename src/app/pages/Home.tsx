@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
-import { Factory, Users, ShieldCheck, MessageSquare, Search } from 'lucide-react';
+import { Factory, Users, ShieldCheck, MessageSquare, Zap, Globe, Award, ArrowRight } from 'lucide-react';
 import { mockFactories } from '../data/mockData';
 import { FactoryCard } from '../components/factory/FactoryCard';
 import { FactoryCardSkeleton } from '../components/ui/Skeleton';
@@ -61,8 +61,6 @@ function useAnimatedCounter(end: number, duration: number = 2000, startOnView: b
 
 export function Home() {
   const [loading, setLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
 
   // Animated counters
@@ -92,57 +90,74 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-pattern">
-      {/* Premium Sticky Search Header */}
-      <div className="sticky top-0 z-50 bg-[#0B1C3A] border-b border-[#1E3A5F] shadow-2xl">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-center">
-            {/* Premium Search Bar */}
-            <div 
-              className={`
-                search-appear
-                relative flex items-center
-                w-full max-w-xl min-w-[280px]
-                bg-[#0F1F2F] rounded-2xl
-                border-2 transition-all duration-300
-                ${isSearchFocused 
-                  ? 'border-[#D4AF37] shadow-[0_0_12px_rgba(212,175,55,0.5)]' 
-                  : 'border-[#D4AF37] border-pulse-gold'
-                }
-              `}
-            >
-              {/* Gold Search Icon */}
-              <Search className="absolute left-4 w-5 h-5 text-[#D4AF37]" />
-              
-              {/* Input Field */}
-              <input
-                type="text"
-                placeholder="Поиск по 10,000+ фабрик..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={() => setIsSearchFocused(true)}
-                onBlur={() => setIsSearchFocused(false)}
-                className="
-                  flex-1 h-12 pl-12 pr-2
-                  bg-transparent text-white text-base
-                  placeholder:text-[#64748B]
-                  focus:outline-none
-                "
-              />
-              
-              {/* Gold Search Button */}
-              <button 
-                className="
-                  h-10 px-6 mr-1
-                  bg-gradient-to-r from-[#D4AF37] to-[#E4C030]
-                  hover:from-[#E4C030] hover:to-[#F4D03F]
-                  text-[#0B1C3A] font-semibold text-sm rounded-xl
-                  transition-all duration-300
-                  whitespace-nowrap
-                "
-              >
-                Найти
-              </button>
+      {/* Hero Section - Key Features */}
+      <div className="bg-gradient-to-br from-[#0B1C3A] via-[#0F2847] to-[#0B1C3A] py-10 md:py-14 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-10 left-10 w-64 h-64 bg-[#D4AF37]/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#D4AF37]/5 rounded-full blur-3xl" />
+        </div>
+        
+        <div className="container mx-auto px-4 relative">
+          <div className="text-center mb-8 md:mb-10">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4">
+              <span className="text-gradient-gold">AI-платформа</span> для B2B торговли
+            </h1>
+            <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto">
+              Найдите проверенных производителей из Китая с AI-скорингом, защитой сделок и автопереводом
+            </p>
+          </div>
+
+          {/* Feature Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 max-w-4xl mx-auto">
+            <div className="group bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl p-4 md:p-5 border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#D4AF37] to-[#F4D03F] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Zap className="w-5 h-5 md:w-6 md:h-6 text-[#0B1C3A]" />
+              </div>
+              <h3 className="text-white font-semibold text-sm md:text-base mb-1">AI-скоринг</h3>
+              <p className="text-white/50 text-xs md:text-sm">Умная оценка надёжности</p>
             </div>
+
+            <div className="group bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl p-4 md:p-5 border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#10B981] to-[#34D399] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              </div>
+              <h3 className="text-white font-semibold text-sm md:text-base mb-1">Защита сделок</h3>
+              <p className="text-white/50 text-xs md:text-sm">Безопасные платежи</p>
+            </div>
+
+            <div className="group bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl p-4 md:p-5 border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#6366F1] to-[#818CF8] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Globe className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              </div>
+              <h3 className="text-white font-semibold text-sm md:text-base mb-1">Автоперевод</h3>
+              <p className="text-white/50 text-xs md:text-sm">Общение без барьеров</p>
+            </div>
+
+            <div className="group bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl p-4 md:p-5 border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-300">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#F59E0B] to-[#FBBF24] rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Award className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              </div>
+              <h3 className="text-white font-semibold text-sm md:text-base mb-1">Верификация</h3>
+              <p className="text-white/50 text-xs md:text-sm">Проверка документов</p>
+            </div>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap justify-center gap-3 mt-8">
+            <Link 
+              to="/rfq"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#D4AF37] to-[#E4C030] hover:from-[#E4C030] hover:to-[#F4D03F] text-[#0B1C3A] font-semibold rounded-xl transition-all hover:scale-105"
+            >
+              Создать RFQ
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link 
+              to="/catalog"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/15 text-white font-medium rounded-xl border border-white/20 hover:border-[#D4AF37]/50 transition-all"
+            >
+              Смотреть каталог
+            </Link>
           </div>
         </div>
       </div>
